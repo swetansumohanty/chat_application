@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body{
+            
+            background-color:gray;
+            color:rgb(245, 184, 72);
+            max-width: max-content;
+            margin: auto;
+        }
+        #gp{
+            color: white;
+        }
+       
+    </style>
+    <title>Base</title>
+</head>
+<body align="center"> 
+    
+    <h3>{{user|upper}}</h3>
+    <h2>Group Name:{{groupname|upper}}</h2>
+    <h4><a href="{% url 'logout' %}" id="gp" >Logout</a></h4>
+    <textarea name="" id="chat-log" cols="90" rows="20">
+        {% for chat in chats %} 
+        {{chat.c_user}}   {{chat.content}}                      {{chat.Timestamp}}
+        {% endfor %}
+    </textarea><br>
+    <input type="text" id="chat-message-input" size="70" placeholder="Enter Message Here">
+    <input type="button" value="send" id="chat-message-submit">
+   {{groupname|json_script:"gnm"}}
+  
+
+    <script>
+        const group_name = JSON.parse(document.getElementById("gnm").textContent)
+        console.log(group_name)
+        // var ws = new WebSocket("ws://"+window.location.host+"/ws/sc/"+group_name+"/")
+        var ws = new WebSocket("ws://"+window.location.host+"/ws/ac/"+group_name+"/")
+        var sender = '{{user}}'
+        console.log(sender)
+        ws.onopen = function(){
+            console.log("connecting...")
+            
+        }
+        ws.onmessage = function(event){
+            console.log(event)
+            console.log("message received from server",event.data)
+            const data = JSON.parse(event.data)
+            const date = new Date();
+            const n = date.toDateString();
+            const time = date.toLocaleTimeString();
+            document.querySelector("#chat-log").value +=(
+                '['+ data.sender +']:'+data.msg+"\t"+"\t" +"\t"+"\t"+time+"\t"+n+"\n"
+                )
+        }
+
+        document.getElementById("chat-message-submit").onclick = 
+        function(event){
+            const messgeInputDom = document.getElementById("chat-message-input")
+            const message = messgeInputDom.value
+            ws.send(JSON.stringify({
+                "msg":message,
+                "sender":sender
+            }))
+            messgeInputDom.value = ''
+        }
+    </script>
+   
+</body>
+</html>

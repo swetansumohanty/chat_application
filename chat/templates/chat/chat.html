@@ -1,0 +1,25 @@
+{% extends 'chat/index1.html' %}
+{% load static %}
+
+{% block content %}
+    <div class="container">
+        <h5>welcome...</h5>
+        <div class="row-sm-8 ">
+        <textarea name="" id="chat-body" cols="80" rows="20">
+            {% if messages %}
+                {% for m in messages %}
+                    {{m.sender}} :  {{m.message}}
+                {% endfor %}
+            {% endif %}
+        </textarea><br>
+        <input type="text" id="input-message" size="70" placeholder="enter your message here">
+        <input type="button" id="chat-message-submit" value="send" class="btn btn-primary"></div>
+    </div>
+    {{l_user|json_script:'json-username'}}
+    {{n_user|json_script:'json-message-username'}}
+{% endblock %}
+
+{% block js %}
+<script src="{% static '/chat/chat.js' %}"></script>
+<script src="{% static 'chat/demo.js' %}"></script>
+{% endblock %}

@@ -1,0 +1,20 @@
+{% extends 'a_user/base.html' %}
+{% load static %}
+
+{% block content %}
+<form action="" method="post" novalidate>
+    {% csrf_token %}
+
+    {% if form.non_field_errors %}
+        {% for error in form.non_field_errors %}
+            <span class="errolist nonfield" >
+                {{error}}
+            </span>
+        {% endfor %}
+    {% endif %}
+    
+    {{form.as_p}}
+<input type="submit" value="Login" name="" id="">
+<span><h5>Don't Have Account    <a href="{% url 'signup' %}">Create New</a></h5></span>
+</form>
+{% endblock %}

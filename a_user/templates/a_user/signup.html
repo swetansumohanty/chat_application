@@ -1,0 +1,28 @@
+{% extends 'a_user/base.html' %}
+{% load static %}
+
+
+{% block content %}
+<form action="" method="post" novalidate>
+    {% csrf_token %}
+
+    {% if form.non_field_errors %}
+    {% for error in form.non_field_errors %}
+    <span class="errorlist nonfield">{{error}}</span>
+    {% endfor %}
+    {% endif %}
+    
+    {% if form %}
+        {% for field in form %}
+            <div>
+                {{field.label_tag}} {{field}}
+                {% for error in field.errors %}
+                <span class="errorlist">{{error}}</span>
+                {% endfor %}
+            </div><br>
+        {% endfor %}
+    {% endif %}
+    
+<input type="submit" value="Register">
+</form>
+{% endblock %}

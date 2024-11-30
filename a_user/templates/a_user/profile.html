@@ -1,0 +1,19 @@
+{% extends 'a_user/base.html' %}
+{% load static %}
+{% block title %}user_profile{% endblock %}
+{% block content %}
+<h2>congratulations {{name|upper}}</h2>
+<h4>Continue to Chat ...</h4>
+<h3>join existing Group !</h3>
+    <ul>
+        <li> <a href="/chat/indian/?user={{name}}">Indian</a></li>
+        <li><a href="/chat/srilanka/?user={{name}}">srilanka</a> </li>
+        <li><a href="/chat/USA/?user={{name}}"> USA </a></li>
+    </ul>
+<h3>Custom Group !</h3>
+<h4><a href="/p_group/">create your own</a></h4>
+<h4><a href="{% url 'logout' %}">Logout</a></h4>
+
+<h3>for one to one chat click here ...</h3>
+<a href="{% url 'home' %}">Personal chat</a>
+{% endblock %}
